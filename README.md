@@ -7,38 +7,38 @@ How To Use:
 ----------
 Add your canvas
 
-GameLoop.init('yourCanvasId');
+    GameLoop.init('yourCanvasId');
 
 Add game elements (controllers)
 -------------------------------
 A controller or object can have 3 functions to interact with the loop:
 
-  var YourController = function(){
+    var YourController = function(){
 
-    var controller = {};
-    controller.emit = function(){
-      //Will be called last each frame
+      var controller = {};
+      controller.emit = function(){
+        //Will be called last each frame
+      };
+
+      controller.render = function(context){
+        //basicaly returns the context so that you can draw your object(s)
+      };
+
+      controller.update = function(keysPressed,mousePressed){
+        // you can add listeners
+        // for keyboard and mouse input
+      };
+
+      // your code
+
+      return controller;
     };
-
-    controller.render = function(context){
-      //basicaly returns the context so that you can draw your object(s)
-    };
-
-    controller.update = function(keysPressed,mousePressed){
-      // you can add listeners
-      // for keyboard and mouse input
-    };
-
-    // your code
-
-    return controller;
-  };
 
 Push controllers into the loop
 ------------------------------
 
-var yourController = new YourController();
-GameLoop.addController(yourController);
+    var yourController = new YourController();
+    GameLoop.addController(yourController);
 
 Add Listeners
 -------------
@@ -48,7 +48,7 @@ to store key or mouse events, which will be given as arguments to the update met
 Start the Game
 --------------
 Start the loop
-GameLoop.start();
+    GameLoop.start();
 
 Notice
 ------
