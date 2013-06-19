@@ -48,7 +48,14 @@ to store key or mouse events, which will be given as arguments to the update met
 Start the Game
 --------------
 Start the loop
+
     GameLoop.start();
+
+Delta Time
+-------------
+For smooth movement use:
+
+    GameLoop.deltaTime();
 
 Notice
 ------
