@@ -37,12 +37,42 @@ var GameLoop = (function (){
   // fps
   var skipTicks = 1000/30;
 
-  // public modes
-  // 'game'
-  // 'menu'
   gameLoop.mode = 'game';
   gameLoop.mousePressed  = [];
   gameLoop.keysPressed   = [];
+
+  // public GameLoop functions
+  // Getter Setter
+  gameLoop.addAnimationObject = function(obj){
+    if ( typeof obj === 'object'){
+      animationObjects.push(obj);
+    }
+  };
+
+  gameLoop.getLevel = function() {
+      return level;
+  };
+
+  gameLoop.setLevel = function(gameobj) {
+    if ( typeof gameobj === 'object'){
+      level = gameobj;
+    }
+  };
+
+  gameLoop.getCanvas  = function() { return canvas; }
+  gameLoop.getContext = function() { return context; }
+
+  gameLoop.addController = function (obj) {
+    if(typeof obj === 'object'){
+      controllers.push(obj);
+    }
+  };
+
+   gameLoop.removeController = function (obj) {
+     if(controllers.indexOf(obj) >= 0){
+      controllers.splice( controllers.indexOf(obj, 1));
+    }
+  };
 
   gameLoop.deltaTime = function(){
     return 0.01 * (parseInt(Date.now() - lastTick, 10));
@@ -76,7 +106,7 @@ var GameLoop = (function (){
     // RequestAnimationFrame is burning the cpu with its update circles
     setTimeout( function(){
       window.requestAnimFrame(play);
-    }, 10);
+    }, 25);
   }
 
   function emit(){
@@ -92,21 +122,21 @@ var GameLoop = (function (){
     context.save();
 
     if(level.render !== undefined){
-      level.render(context);
+      level.render(canvas, context);
     }
 
     // render controllers
     for(var i = 0; i < controllers.length; i++){
       var controller = controllers[i];
       if(typeof controller.render !== 'undefined'){
-        controller.render(context);
+        controller.render(canvas,context);
       }
     }
 
     // TODO: replace with a 'destroy after time' function
     animationObjects.forEach(function(to){
       if( to.startTime !== undefined){
-        to.render(context);
+        to.render(canvas.context);
         if( to.animationTime !== undefined){
          if((Date.now() - to.startTime ) > to.animationTime ){
           animationObjects.splice((animationObjects.indexOf(to)), 1);
@@ -126,7 +156,7 @@ var GameLoop = (function (){
     var child, i, collider;
 
     controllers.forEach(function(controller){
-      if(typeof controller.render !== 'undefined'){
+      if(typeof controller.update !== 'undefined'){
         controller.update(gameLoop.keysPressed, gameLoop.mousePressed );
       }
     });
@@ -139,36 +169,7 @@ var GameLoop = (function (){
     });
   }
 
-  // public GameLoop functions
-  // Getter Setter
 
-  gameLoop.addAnimationObject = function(obj){
-    if ( typeof obj === 'object'){
-      animationObjects.push(obj);
-    }
-  };
-
-  gameLoop.getLevel = function() {
-      return level;
-  };
-
-  gameLoop.setLevel = function(gameobj) {
-    if ( typeof gameobj === 'object'){
-      level = gameobj;
-    }
-  };
-
-  gameLoop.addController = function (obj) {
-    if(typeof obj === 'object'){
-      controllers.push(obj);
-    }
-  };
-
-   gameLoop.removeController = function (obj) {
-     if(controllers.indexOf(obj) >= 0){
-      controllers.splice( controllers.indexOf(obj, 1));
-    }
-  };
 
    // INIT
   gameLoop.init = function(canvasId){
