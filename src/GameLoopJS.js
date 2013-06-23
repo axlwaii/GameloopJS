@@ -18,12 +18,11 @@ window.requestAnimFrame = (function(){
 })();
 
 // Global Game Components
-var canvas, context;
 // MAIN GAMELOOP
-var GameLoop = (function() {
+var GameLoop = (function (){
   // return value
   var gameLoop      = {};
-
+  var canvas, context;
   //private variables
   var controllers;
   var level         = {};
