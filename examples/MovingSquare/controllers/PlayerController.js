@@ -14,11 +14,11 @@ PlayerController = function(){
   };
 
   // GameLoop Methods
-  controller.render = function(context){
+  controller.render = function(canvas, context){
     player.render(context);
   };
 
-  controller.update = function(k){
+  controller.update = function(k,m){
     player.update(k);
   };
 
