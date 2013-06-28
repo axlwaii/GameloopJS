@@ -6,40 +6,40 @@ This is a just a game loop.
 How To Use:
 ----------
 Add your canvas
-
-    GameLoop.init('yourCanvasId');
-
+```javascript
+GameLoop.init('yourCanvasId');
+```
 Add game elements (controllers)
 -------------------------------
 A controller or object can have 3 functions to interact with the loop:
-
-    var YourController = function(){
-
-      var controller = {};
-      controller.emit = function(){
-        //Will be called last each frame
-      };
-
-      controller.render = function(context){
-        //basicaly returns the context so that you can draw your object(s)
-      };
-
-      controller.update = function(keysPressed,mousePressed){
-        // you can add listeners
-        // for keyboard and mouse input
-      };
-
-      // your code
-
-      return controller;
+```javascript
+var YourController = function(){
+	var controller = {};
+    
+	controller.emit = function(){
+    // if you want to use websockets or something similiar you can put your emit events in here
     };
 
+	controller.render = function(context){
+	//basicaly returns the context so that you can draw your object(s)
+	};
+
+	controller.update = function(keysPressed,mousePressed){
+	// you can add listeners
+   	// for keyboard and mouse input
+ 	};
+
+ 	// your code
+
+	return controller;
+};
+```
 Push controllers into the loop
 ------------------------------
-
-    var yourController = new YourController();
-    GameLoop.addController(yourController);
-
+```javascript
+var yourController = new YourController();
+GameLoop.addController(yourController);
+```
 Add Listeners
 -------------
 GameLoop provides two arrays (GameLoop.keyPressed and GameLoop.mousepressed)
@@ -48,15 +48,16 @@ to store key or mouse events, which will be given as arguments to the update met
 Start the Game
 --------------
 Start the loop
-
-    GameLoop.start();
+```javascript
+GameLoop.start();
+```
 
 Delta Time
 -------------
 For smooth movement use:
-
-    GameLoop.deltaTime();
-
+```javascript
+GameLoop.deltaTime();
+```
 Notice
 ------
 GameLoop is still in an early stage of development and may change in future versions.
