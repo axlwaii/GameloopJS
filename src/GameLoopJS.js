@@ -112,10 +112,6 @@ var GameLoop = (function (){
     context.clearRect(0,0,canvas.width, canvas.height);
     context.save();
 
-    if(level.render !== undefined){
-      level.render(canvas, context);
-    }
-
     // render controllers
     for(var i = 0; i < controllers.length; i++){
       var controller = controllers[i];
