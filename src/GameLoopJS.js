@@ -26,7 +26,6 @@ var GameLoop = (function (){
   //private variables
   var controllers;
   var level         = {};
-  var pause = false;
 
   // private
   var animationObjects = [];
@@ -92,10 +91,6 @@ var GameLoop = (function (){
   function play(){
     if(tick()){
       render();
-
-      if(!pause){
-        update();
-      }
 
       emit();
 
@@ -195,8 +190,6 @@ var GameLoop = (function (){
     play();
   }
 
-  gameLoop.pause = function(){ pause = true;};
-  gameLoop.resume = function(){ pause = false;};
 
   return gameLoop;
 }());
