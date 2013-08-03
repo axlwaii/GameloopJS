@@ -92,8 +92,9 @@ var GameLoop = (function (){
 
   function play(){
     if(tick()){
-      render();
 
+      render();
+      update();
       emit();
 
       nextTick = new Date().getTime() + skipTicks;
@@ -101,6 +102,7 @@ var GameLoop = (function (){
     }
 
     if(!isRunning) { return; }
+
     // RequestAnimationFrame is burning the cpu with its update circles
     setTimeout( function(){
       window.requestAnimFrame(play);
@@ -166,8 +168,6 @@ var GameLoop = (function (){
       }
     });
   }
-
-
 
    // INIT
   gameLoop.init = function(canvasId){
