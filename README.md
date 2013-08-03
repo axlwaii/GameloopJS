@@ -11,14 +11,10 @@ GameLoop.init('yourCanvasId');
 ```
 Add game elements (controllers)
 -------------------------------
-A controller or object can have 3 functions to interact with the loop:
+A controller needs 2 functions to interact with the loop:
 ```javascript
 var YourController = function(){
 	var controller = {};
-    
-	controller.emit = function(){
-    // if you want to use websockets or something similiar you can put your emit events in here
-    };
 
 	controller.render = function(context){
 	//basicaly returns the context so that you can draw your object(s)
@@ -34,7 +30,7 @@ var YourController = function(){
 	return controller;
 };
 ```
-Push controllers into the loop
+Push your controller into the loop
 ------------------------------
 ```javascript
 var yourController = new YourController();
@@ -52,6 +48,13 @@ Start the loop
 GameLoop.start();
 ```
 
+Stop the Game
+--------------
+Stop the loop
+```javascript
+GameLoop.stop();
+```
+
 Delta Time
 -------------
 For smooth movement use:
@@ -60,9 +63,10 @@ GameLoop.deltaTime();
 ```
 Notice
 ------
-GameLoop is still in an early stage of development and may change in future versions.
+GameLoopJS is still in an early stage of development and may change in future versions.
 
 License
+------
   -
 The MIT License (MIT)
 
