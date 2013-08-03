@@ -95,7 +95,6 @@ var GameLoop = (function (){
 
       render();
       update();
-      emit();
 
       nextTick = new Date().getTime() + skipTicks;
       lastTick = new Date().getTime();
@@ -108,14 +107,6 @@ var GameLoop = (function (){
       window.requestAnimFrame(play);
     }, 25);
   }
-
-  function emit(){
-    controllers.forEach(function(controller){
-      if(typeof controller.emit !== 'undefined'){
-        controller.emit();
-      };
-    });
-  };
 
   function render(){
     context.clearRect(0,0,canvas.width, canvas.height);
