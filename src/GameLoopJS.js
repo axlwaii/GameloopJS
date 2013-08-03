@@ -33,6 +33,8 @@ var GameLoop = (function (){
   var lastTick;
   var nextTick;
 
+  var isRunning = false;
+
   // fps
   var skipTicks = 1000/30;
 
@@ -98,6 +100,7 @@ var GameLoop = (function (){
       lastTick = new Date().getTime();
     }
 
+    if(!isRunning) { return; }
     // RequestAnimationFrame is burning the cpu with its update circles
     setTimeout( function(){
       window.requestAnimFrame(play);
@@ -187,9 +190,11 @@ var GameLoop = (function (){
     nextTick = new Date().getTime();
     lastTick = new Date().getTime();
     // Start the Loop
+    isRunning = true;
     play();
   }
 
+  gameLoop.stop = function(){ isRunning = false; };
 
   return gameLoop;
 }());
