@@ -124,22 +124,6 @@ var GameLoop = (function (){
       }
     }
 
-    // TODO: replace with a 'destroy after time' function
-    animationObjects.forEach(function(to){
-      if( to.startTime !== undefined){
-        to.render(canvas.context);
-        if( to.animationTime !== undefined){
-         if((Date.now() - to.startTime ) > to.animationTime ){
-          animationObjects.splice((animationObjects.indexOf(to)), 1);
-          }
-        } else {
-          if((Date.now() - to.startTime ) > 500 ){
-            animationObjects.splice((animationObjects.indexOf(to)), 1);
-          }
-        }
-      }
-    });
-
     context.restore();
   }
 
