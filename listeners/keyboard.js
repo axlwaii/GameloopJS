@@ -12,7 +12,7 @@
  *
  */
 
-var readyStateCheckInterval = setInterval(function() {
+var readyStateKeyboardListener = setInterval(function() {
   if (document.readyState === "complete") {
 
     if(typeof GameLoop.input.keysPressed === 'undefined'){
@@ -33,11 +33,13 @@ var readyStateCheckInterval = setInterval(function() {
       }
     }
 
+    // Add Event listeners
+    window.addEventListener('keydown', onKeyDown, false);
+    window.addEventListener('keyup', onKeyUp, false);
+
+    clearInterval(readyStateKeyboardListener);
   }
 
-  // Add Event listeners
-  window.addEventListener('keydown', onKeyDown, false);
-  window.addEventListener('keyup', onKeyUp, false);
 },10);
 
 
