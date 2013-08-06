@@ -35,6 +35,7 @@ var GameLoop = (function (){
 
   // public GameLoop functions
   // Getter Setter
+  gameLoop.input = {};
 
   gameLoop.getCanvas  = function() { return canvas; }
   gameLoop.getContext = function() { return context; }
@@ -104,7 +105,7 @@ var GameLoop = (function (){
 
     controllers.forEach(function(controller){
       if(typeof controller.update !== 'undefined'){
-        controller.update(gameLoop.keysPressed, gameLoop.mousePressed );
+        controller.update(gameLoop.input);
       }
     });
 
