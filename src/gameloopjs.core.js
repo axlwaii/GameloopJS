@@ -22,10 +22,8 @@ var GameLoop = (function (){
   var canvas, context;
   //private variables
   var controllers;
-  var level         = {};
 
   // private
-  var animationObjects = [];
   var startTime;
   var lastTick;
   var nextTick;
@@ -35,27 +33,8 @@ var GameLoop = (function (){
   // fps
   var skipTicks = 1000/30;
 
-  gameLoop.mode = 'game';
-  gameLoop.mousePressed  = [];
-  gameLoop.keysPressed   = [];
-
   // public GameLoop functions
   // Getter Setter
-  gameLoop.addAnimationObject = function(obj){
-    if ( typeof obj === 'object'){
-      animationObjects.push(obj);
-    }
-  };
-
-  gameLoop.getLevel = function() {
-      return level;
-  };
-
-  gameLoop.setLevel = function(gameobj) {
-    if ( typeof gameobj === 'object'){
-      level = gameobj;
-    }
-  };
 
   gameLoop.getCanvas  = function() { return canvas; }
   gameLoop.getContext = function() { return context; }
