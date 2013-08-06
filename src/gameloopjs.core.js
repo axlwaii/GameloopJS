@@ -1,4 +1,5 @@
 /*
+ * Core GameLoop
 */
 
 // Animation Time
@@ -117,6 +118,7 @@ var GameLoop = (function (){
     });
   }
 
+   // INIT, START, STOP
   gameLoop.init = function(canvasId){
     if(typeof canvasId === 'undefined'){
       console.error("No canvas object is defined");
