@@ -38,8 +38,7 @@ GameLoop.addController(yourController);
 ```
 Add Listeners
 -------------
-GameLoop provides two arrays (GameLoop.keyPressed and GameLoop.mousepressed)
-to store key or mouse events, which will be given as arguments to the update method.
+GameLoop provides an input hash to store events, which will be given as arguments to the update method.
 
 Start the Game
 --------------
