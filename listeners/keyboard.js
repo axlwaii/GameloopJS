@@ -15,17 +15,21 @@
 var readyStateCheckInterval = setInterval(function() {
   if (document.readyState === "complete") {
 
+    if(typeof GameLoop.input.keysPressed === 'undefined'){
+      GameLoop.input.keysPressed = [];
+    }
+
     var onKeyDown = function(e) {
       var c = e.keyCode;
-      if(GameLoop.keysPressed.indexOf(c) < 0) {
-        GameLoop.keysPressed.push(c);
+      if(GameLoop.input.keysPressed.indexOf(c) < 0) {
+        GameLoop.input.keysPressed.push(c);
       }
     }
 
     var onKeyUp = function(e) {
       var c = e.keyCode;
-      if(GameLoop.keysPressed.indexOf(c) >= 0) {
-        GameLoop.keysPressed.splice(GameLoop.keysPressed.indexOf(c), 1);
+      if(GameLoop.input.keysPressed.indexOf(c) >= 0) {
+        GameLoop.input.keysPressed.splice(GameLoop.input.keysPressed.indexOf(c), 1);
       }
     }
 
