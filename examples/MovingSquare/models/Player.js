@@ -4,7 +4,7 @@ Player = function(newX, newY){
 
   var model = {};
 
-  model.speed = 30;
+  model.speed = 10;
 
   model.position = {
     x: newX,
@@ -17,7 +17,6 @@ Player = function(newX, newY){
   };
 
   model.update = function(keysArray){
-    console.log(GameLoop.deltaTime());
     if(keysArray instanceof Array) {
     for(var i = 0; i< keysArray.length; i++){
       switch(keysArray[i]){

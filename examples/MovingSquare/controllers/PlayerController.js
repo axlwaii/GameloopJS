@@ -18,8 +18,8 @@ PlayerController = function(){
     player.render(context);
   };
 
-  controller.update = function(k,m){
-    player.update(k);
+  controller.update = function(inputHash){
+    player.update(inputHash.keysPressed);
   };
 
   return controller;
