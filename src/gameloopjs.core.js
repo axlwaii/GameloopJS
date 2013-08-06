@@ -1,5 +1,4 @@
 /*
- * This is a just a game loop
 */
 
 // Animation Time
@@ -17,8 +16,6 @@ window.requestAnimFrame = (function(){
   );
 })();
 
-// Global Game Components
-// MAIN GAMELOOP
 var GameLoop = (function (){
   // return value
   var gameLoop      = {};
@@ -140,7 +137,6 @@ var GameLoop = (function (){
     });
   }
 
-   // INIT
   gameLoop.init = function(canvasId){
     if(typeof canvasId === 'undefined'){
       console.error("No canvas object is defined");
@@ -160,7 +156,6 @@ var GameLoop = (function (){
     startTime = Date.now();
     nextTick = new Date().getTime();
     lastTick = new Date().getTime();
-    // Start the Loop
     isRunning = true;
     play();
   }
