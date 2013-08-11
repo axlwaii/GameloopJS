@@ -41,6 +41,10 @@ var GameLoop = (function (){
   gameLoop.getCanvas  = function() { return canvas; }
   gameLoop.getContext = function() { return context; }
 
+  gameLoop.fps = function(fps){
+    skipTicks = 1000/fps;
+  };
+
   gameLoop.addController = function (obj) {
     if(typeof obj === 'object'){
       controllers.push(obj);
