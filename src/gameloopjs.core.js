@@ -144,9 +144,13 @@ var GameLoop = (function (){
     lastTick = new Date().getTime();
     isRunning = true;
     play();
+    console.info("Gameloop is running");
   }
 
-  gameLoop.stop = function(){ isRunning = false; };
+  gameLoop.stop = function(){
+    console.info("Gameloop stopped");
+    isRunning = false;
+  };
 
   return gameLoop;
 }());
