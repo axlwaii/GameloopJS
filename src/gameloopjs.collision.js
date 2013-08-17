@@ -1,5 +1,4 @@
 // Gameloop
-
 GameLoop.collided = function(a, b) {
 
     //check for horz collision
