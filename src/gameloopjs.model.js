@@ -8,5 +8,7 @@ GameLoop.Model = function(){
   model.height = 0;
   model.width = 0;
 
+  model.lastUpdateAt = Date.now();
+
   return model;
 };
