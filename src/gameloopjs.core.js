@@ -1,158 +1,171 @@
-/*
- * Core GameLoop
-*/
+// GameLoopJS Core
+
 /*jslint browser:true*/
 
-// Animation Time
 "use strict";
+
+var GameLoop = {};
+
 window.requestAnimFrame = (function(){
-  return (
-    window.requestAnimationFrame       ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame    ||
-    window.oRequestAnimationFrame      ||
-    window.msRequestAnimationFrame     ||
 
-    function(/* function */ callback, /* DOMElement */ element){
-      window.setTimeout(callback, 1000 / 30);
-    }
-  );
-})();
+    return (
+        window.requestAnimationFrame       ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame    ||
+        window.oRequestAnimationFrame      ||
+        window.msRequestAnimationFrame     ||
 
-var GameLoop = (function (){
-  // return value
-  var gameLoop      = {};
-  var canvas, context;
-  //private variables
-  var controllers;
+        function(callback){
+            window.setTimeout(callback, 1000 / 30);
+        }
+        );
 
-  // private
-  var startTime;
-  var lastTick;
-  var nextTick;
+}());
 
-  var isRunning = false;
+GameLoop = (function (){
 
-  // fps
-  var skipTicks = 1000/30;
+    var addController,
+        canvas,
+        context,
+        controllers,
+        deltaTime,
+        fps,
+        getCanvas,
+        getContext,
+        init,
+        input = {},
+        isRunning = false,
+        lastTick,
+        nextTick,
+        play,
+        removeController,
+        render,
+        skipTicks = 1000/30,
+        start,
+        startTime,
+        stop,
+        tick,
+        update;
 
-  // public GameLoop functions
-  // Getter Setter
-  gameLoop.input = {};
+    getCanvas  = function() { return canvas; };
+    getContext = function() { return context; };
 
-  gameLoop.getCanvas  = function() { return canvas; }
-  gameLoop.getContext = function() { return context; }
+    fps = function(fps){
+        skipTicks = 1000/fps;
+    };
 
-  gameLoop.fps = function(fps){
-    skipTicks = 1000/fps;
-  };
+    addController = function (obj) {
+        if(typeof obj === 'object'){
+            controllers.push(obj);
+        }
+    };
 
-  gameLoop.addController = function (obj) {
-    if(typeof obj === 'object'){
-      controllers.push(obj);
-    }
-  };
+    removeController = function (obj) {
+        if(controllers.indexOf(obj) >= 0){
+            controllers.splice( controllers.indexOf(obj, 1));
+        }
+    };
 
-   gameLoop.removeController = function (obj) {
-     if(controllers.indexOf(obj) >= 0){
-      controllers.splice( controllers.indexOf(obj, 1));
-    }
-  };
+    deltaTime = function(){
+        return 0.01 * (parseInt(Date.now() - lastTick, 10));
+    };
 
-  gameLoop.deltaTime = function(){
-    return 0.01 * (parseInt(Date.now() - lastTick, 10));
-  }
+    tick = function(){
+        if(new Date().getTime() > nextTick){
+            return true;
+        }
+        return false;
+    };
 
-  // private GameLoop functions
+    play = function(){
+        if(tick()){
+            render();
+            update();
 
-  function tick(){
+            nextTick = new Date().getTime() + skipTicks;
+            lastTick = new Date().getTime();
+        }
 
-    if(new Date().getTime() > nextTick){
-      return true;
-    }
+        if(!isRunning) { return; }
 
-    return false;
-  }
+        // RequestAnimationFrame is burning the cpu with its update circles
+        setTimeout( function(){
+            window.requestAnimFrame(play);
+        }, 25);
+    };
 
-  function play(){
-    if(tick()){
+    render = function(){
+        var i, controller;
+        context.clearRect(0,0,canvas.width, canvas.height);
+        context.save();
 
-      render();
-      update();
+        // render controllers
+        for(i = 0; i < controllers.length; i++){
+            controller = controllers[i];
+            if(controller.render !== 'undefined'){
+                controller.render(canvas,context);
+            }
+        }
+        context.restore();
+    };
 
-      nextTick = new Date().getTime() + skipTicks;
-      lastTick = new Date().getTime();
-    }
+    update = function (){
+        controllers.forEach(function(controller){
+            if(controller.update !== 'undefined'){
+                controller.update(input);
+            }
+        });
 
-    if(!isRunning) { return; }
+        // check for collisions
+        controllers.forEach(function(controller){
+            if(typeof controller.collisions !== 'undefined'){
+                controller.collisions();
+            }
+        });
+    };
 
-    // RequestAnimationFrame is burning the cpu with its update circles
-    setTimeout( function(){
-      window.requestAnimFrame(play);
-    }, 25);
-  }
+    // INIT, START, STOP
+    init = function(canvasId){
+        if(canvasId === 'undefined'){
+            console.error("No canvas object is defined");
+            return false;
+        }
+        controllers = [];
 
-  function render(){
-    context.clearRect(0,0,canvas.width, canvas.height);
-    context.save();
+        canvas = document.getElementById(canvasId);
+        context = canvas.getContext('2d');
+    };
 
-    // render controllers
-    for(var i = 0; i < controllers.length; i++){
-      var controller = controllers[i];
-      if(typeof controller.render !== 'undefined'){
-        controller.render(canvas,context);
-      }
-    }
+    start = function(){
+        if(controllers.length === 0) {
+            console.warn("No controllers in the Game.");
+        }
 
-    context.restore();
-  }
+        startTime = Date.now();
+        nextTick = new Date().getTime();
+        lastTick = new Date().getTime();
+        isRunning = true;
+        play();
+        console.info("Gameloop is running");
+    };
 
-  function update (){
-    var child, i, collider;
+    stop = function(){
+        console.info("Gameloop stopped");
+        isRunning = false;
+    };
 
-    controllers.forEach(function(controller){
-      if(typeof controller.update !== 'undefined'){
-        controller.update(gameLoop.input);
-      }
-    });
+    return {
+        addController: addController,
+        deltaTime: deltaTime,
+        fps: fps,
+        getCanvas: getCanvas,
+        getContext: getContext,
+        init: init,
+        input: input,
+        removeController: removeController,
+        start: start,
+        startTime: startTime,
+        stop: stop
+    };
 
-    // check for collisions
-    controllers.forEach(function(controller){
-      if(typeof controller.collisions !== 'undefined'){
-        controller.collisions();
-      }
-    });
-  }
-
-   // INIT, START, STOP
-  gameLoop.init = function(canvasId){
-    if(typeof canvasId === 'undefined'){
-      console.error("No canvas object is defined");
-      return false;
-    }
-    controllers = [];
-
-    canvas = document.getElementById(canvasId);
-    context = canvas.getContext('2d');
-  };
-
-  gameLoop.start = function(){
-    if(!controllers.length === 0) {
-      console.warn("No controllers in the Game.");
-    }
-
-    startTime = Date.now();
-    nextTick = new Date().getTime();
-    lastTick = new Date().getTime();
-    isRunning = true;
-    play();
-    console.info("Gameloop is running");
-  }
-
-  gameLoop.stop = function(){
-    console.info("Gameloop stopped");
-    isRunning = false;
-  };
-
-  return gameLoop;
 }());
