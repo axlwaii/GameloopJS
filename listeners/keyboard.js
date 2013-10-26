@@ -13,32 +13,32 @@
  */
 
 var readyStateKeyboardListener = setInterval(function() {
-  if (document.readyState === "complete") {
+    if (document.readyState === "complete") {
 
-    if(typeof GameLoop.input.keysPressed === 'undefined'){
-      GameLoop.input.keysPressed = [];
+        if(typeof GameLoop.input.keysPressed === 'undefined'){
+            GameLoop.input.keysPressed = [];
+        }
+
+        var onKeyDown = function(e) {
+            var c = e.keyCode;
+            if(GameLoop.input.keysPressed.indexOf(c) < 0) {
+                GameLoop.input.keysPressed.push(c);
+            }
+        }
+
+        var onKeyUp = function(e) {
+            var c = e.keyCode;
+            if(GameLoop.input.keysPressed.indexOf(c) >= 0) {
+                GameLoop.input.keysPressed.splice(GameLoop.input.keysPressed.indexOf(c), 1);
+            }
+        }
+
+        // Add Event listeners
+        window.addEventListener('keydown', onKeyDown, false);
+        window.addEventListener('keyup', onKeyUp, false);
+
+        clearInterval(readyStateKeyboardListener);
     }
-
-    var onKeyDown = function(e) {
-      var c = e.keyCode;
-      if(GameLoop.input.keysPressed.indexOf(c) < 0) {
-        GameLoop.input.keysPressed.push(c);
-      }
-    }
-
-    var onKeyUp = function(e) {
-      var c = e.keyCode;
-      if(GameLoop.input.keysPressed.indexOf(c) >= 0) {
-        GameLoop.input.keysPressed.splice(GameLoop.input.keysPressed.indexOf(c), 1);
-      }
-    }
-
-    // Add Event listeners
-    window.addEventListener('keydown', onKeyDown, false);
-    window.addEventListener('keyup', onKeyUp, false);
-
-    clearInterval(readyStateKeyboardListener);
-  }
 
 },10);
 

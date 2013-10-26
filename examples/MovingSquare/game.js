@@ -3,18 +3,18 @@ var playerController;
 
 // document ready function
 var readyStateCheckInterval = setInterval(function() {
-  if (document.readyState === "complete") {
+    if (document.readyState === "complete") {
 
-    // Start
-    GameLoop.init("game");
+        // Start
+        GameLoop.init("game");
 
-    playerController = new PlayerController();
-    playerController.setPlayer(new Player(50,50));
-    GameLoop.addController(playerController);
+        playerController = new PlayerController();
+        playerController.setPlayer(new Player(50,50));
+        GameLoop.addController(playerController);
 
-    GameLoop.start();
-    // END
+        GameLoop.start();
+        // END
 
-    clearInterval(readyStateCheckInterval);
-  }
+        clearInterval(readyStateCheckInterval);
+    }
 }, 10);
