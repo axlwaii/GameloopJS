@@ -2,7 +2,6 @@
 
 /*jslint browser:true*/
 
-"use strict";
 
 var GameLoop = {};
 
@@ -104,7 +103,7 @@ GameLoop = (function (){
         // render controllers
         for(i = 0; i < controllers.length; i++){
             controller = controllers[i];
-            if(controller.render !== 'undefined'){
+            if(controller.render !== undefined){
                 controller.render(canvas,context);
             }
         }
@@ -113,14 +112,14 @@ GameLoop = (function (){
 
     update = function (){
         controllers.forEach(function(controller){
-            if(controller.update !== 'undefined'){
+            if(controller.update !== undefined){
                 controller.update(input);
             }
         });
 
         // check for collisions
         controllers.forEach(function(controller){
-            if(typeof controller.collisions !== 'undefined'){
+            if(controller.collisions !== undefined){
                 controller.collisions();
             }
         });
@@ -128,7 +127,7 @@ GameLoop = (function (){
 
     // INIT, START, STOP
     init = function(canvasId){
-        if(canvasId === 'undefined'){
+        if(canvasId === undefined){
             console.error("No canvas object is defined");
             return false;
         }
