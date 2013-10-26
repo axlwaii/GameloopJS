@@ -24,6 +24,8 @@ window.requestAnimFrame = (function(){
 
 GameLoop = (function (){
 
+    "use strict";
+
     var addController,
         canvas,
         context,
