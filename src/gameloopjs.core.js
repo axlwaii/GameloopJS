@@ -1,6 +1,7 @@
 /*
  * Core GameLoop
 */
+/*jslint browser:true*/
 
 // Animation Time
 window.requestAnimFrame = (function(){
