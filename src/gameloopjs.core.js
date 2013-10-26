@@ -4,6 +4,7 @@
 /*jslint browser:true*/
 
 // Animation Time
+"use strict";
 window.requestAnimFrame = (function(){
   return (
     window.requestAnimationFrame       ||
