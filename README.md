@@ -13,21 +13,25 @@ Add game elements (controllers)
 -------------------------------
 A controller needs 2 functions to interact with the loop:
 ```javascript
-var YourController = function(){
-	var controller = {};
 
-	controller.render = function(context){
+/* minimal object to interact with the Gameloop*/
+var YourController = function(){
+	
+	var render, update;
+	
+	render = function(context){
 	//basicaly returns the context so that you can draw your object(s)
 	};
 
-	controller.update = function(keysPressed,mousePressed){
-	// you can add listeners
-   	// for keyboard and mouse input
+	update = function(input){
+	// GameLoop provides an input hash to store events,
+	// which will be passed to your update function each frame
  	};
 
- 	// your code
-
-	return controller;
+	return {
+	    render: render,
+	    update: update
+	};
 };
 ```
 Push your controller into the loop
