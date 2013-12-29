@@ -14,12 +14,12 @@ PlayerController = function(){
   };
 
   // GameLoop Methods
-  controller.render = function(canvas, context){
-    player.render(context);
+  controller.render = function(){
+    player.render();
   };
 
-  controller.update = function(inputHash){
-    player.update(inputHash.keysPressed);
+  controller.update = function(){
+    player.update(GameLoop.input.keysPressed);
   };
 
   return controller;

@@ -4,33 +4,38 @@ Player = function(newX, newY){
 
     var model = {};
 
-    model.speed = 10;
+    model.speed = 1;
 
     model.position = {
         x: newX,
         y: newY
     };
 
-    model.render = function(ctx){
+    model.render = function(){
+        var ctx;
+
+        ctx = GameLoop.context();
+
         ctx.fillStyle = "red";
         ctx.fillRect(this.position.x,this.position.y,50,50);
     };
 
     model.update = function(keysArray){
+        var i;
         if(keysArray instanceof Array) {
-            for(var i = 0; i< keysArray.length; i++){
+            for(i = 0; i< keysArray.length; i++){
                 switch(keysArray[i]){
                     case 38: //up
-                        this.position.y -= 1 * this.speed * GameLoop.deltaTime();
+                        this.position.y -= this.speed * GameLoop.deltaTime();
                         break;
                     case 40: // down
-                        this.position.y += 1 * this.speed * GameLoop.deltaTime();
+                        this.position.y += this.speed * GameLoop.deltaTime();
                         break;
                     case 37: // left
-                        this.position.x -= 1 * this.speed * GameLoop.deltaTime();
+                        this.position.x -= this.speed * GameLoop.deltaTime();
                         break;
                     case 39: // right
-                        this.position.x += 1 * this.speed * GameLoop.deltaTime();
+                        this.position.x += this.speed * GameLoop.deltaTime();
                         break;
                     default:
                         break;

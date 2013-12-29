@@ -10,7 +10,7 @@ var readyStateCheckInterval = setInterval(function() {
 
         playerController = new PlayerController();
         playerController.setPlayer(new Player(50,50));
-        GameLoop.addController(playerController);
+        GameLoop.addObject(playerController);
 
         GameLoop.start();
         // END
