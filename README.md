@@ -28,11 +28,12 @@ Update will be called before render.
 //          down until it hits the canvas height
 //          or up until it hits the 0 point of the canvas
 
-var YourObject = function(){
+var YourObject = function() {
+    
     var render, 
         update,
-        speed = 1,
-        position;
+        position,
+        speed = 1;
         
     position = {
     	x: 50,
@@ -62,8 +63,9 @@ var YourObject = function(){
 
     return {
         render: render,
-	update: update
+        update: update
     };
+    
 };
 ```
 Now all you have to do is to create an instance of our new Object and add it to the GameLoop
