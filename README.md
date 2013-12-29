@@ -1,48 +1,76 @@
 GameLoopJS
 ==========
 
-This is a just a game loop.
-
+Introduction
+------------
+There is nothing fancy about it, '''GameLoop''' just calls '''update()''' and '''render()'''' of added Objects by defined frames per second.
+The default frames per second are 30, you can change it by calling:
+```javascript
+GameLoop.fps(60);
+```
 How To Use:
 ----------
 Add your canvas
 ```javascript
 GameLoop.init('yourCanvasId');
 ```
-Add game elements (controllers)
+
+Add game objects
 -------------------------------
-A controller needs 2 functions to interact with the loop:
+Like mentioned before '''GameLoop''' mainly takes care of the update circles.
+So your object should have the two functions '''update''' and '''render'''.
+
+Update will be called before render.
 ```javascript
 
-/* minimal object to interact with the Gameloop*/
-var YourController = function(){
+// Example: Bouncing Box
+// @desc    red square that moves 
+//          down until it hits the canvas height
+//          or up until it hits the 0 point of the canvas
+
+var YourObject = function(){
 	
-	var render, update;
-	
-	render = function(context){
-	//basicaly returns the context so that you can draw your object(s)
+	var render, 
+      update,
+      speed = 1;
+
+  render = function(){
+    
+        var ctx       = GameLoop.context();
+        ctx.fillStyle = "red";
+
+        ctx.fillRect(this.position.x,this.position.y,50,50);
+
 	};
 
 	update = function(input){
-	// GameLoop provides an input hash to store events,
-	// which will be passed to your update function each frame
- 	};
+
+    canvas = GameLoop.canvas();
+
+    if(position.y >= canvas.height - 50 /* height of the rectangle */){
+      speed = -1;
+    }else if(position.y <= 0){
+      speed = 1;
+    }
+
+    this.position.y += speed * GameLoop.deltaTime();
+
+  };
 
 	return {
 	    render: render,
 	    update: update
 	};
+
 };
 ```
-Push your controller into the loop
-------------------------------
+Now all you have to do is to create an instance of our new Object and add it to the GameLoop
+
 ```javascript
-var yourController = new YourController();
-GameLoop.addController(yourController);
+// add your object
+var yourObject = new YourObject();
+GameLoop.addObject(yourObject);
 ```
-Add Listeners
--------------
-GameLoop provides an input hash to store events, which will be given as arguments to the update method.
 
 Start the Game
 --------------
@@ -58,12 +86,23 @@ Stop the loop
 GameLoop.stop();
 ```
 
-Delta Time
+Parameters
 -------------
-For smooth movement use:
+For smooth movement use '''deltaTime()''':
 ```javascript
 GameLoop.deltaTime();
 ```
+
+'''Canvas''':
+```javascript
+var canvas = GameLoop.canvas();
+```
+
+'''Context''':
+```javascript
+var ctx = GameLoop.context();
+```
+
 Notice
 ------
 GameLoopJS is still in an early stage of development and may change in future versions.
