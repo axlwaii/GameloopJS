@@ -28,9 +28,10 @@ GameLoop = (function (){
     var addObject,
         canvas,
         context,
-        controllers,
+        gameObjects,
         deltaTime,
         fps,
+        currentFps = 30,
         getCanvas,
         getContext,
         init,
@@ -161,14 +162,15 @@ GameLoop = (function (){
     };
 
     return {
-        addController: addController,
+        addObject: addObject,
+        canvas: getCanvas,
+        context: getContext,
         deltaTime: deltaTime,
         fps: fps,
-        getCanvas: getCanvas,
-        getContext: getContext,
+        gameObjects: gameObjects,
         init: init,
         input: input,
-        removeController: removeController,
+        removeObject: removeObject,
         start: start,
         startTime: startTime,
         stop: stop
