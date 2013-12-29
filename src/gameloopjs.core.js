@@ -25,7 +25,7 @@ GameLoop = (function (){
 
     "use strict";
 
-    var addController,
+    var addObject,
         canvas,
         context,
         controllers,
@@ -39,7 +39,7 @@ GameLoop = (function (){
         lastTick,
         nextTick,
         play,
-        removeController,
+        removeObject,
         render,
         skipTicks = 1000/30,
         start,
@@ -55,15 +55,19 @@ GameLoop = (function (){
         skipTicks = 1000/fps;
     };
 
-    addController = function (obj) {
+    addObject = function (obj) {
+
         if(typeof obj === 'object'){
-            controllers.push(obj);
+            gameObjects.push(obj);
         }
     };
 
     removeController = function (obj) {
         if(controllers.indexOf(obj) >= 0){
             controllers.splice( controllers.indexOf(obj, 1));
+    removeObject = function (obj) {
+        if(gameObjects.indexOf(obj) >= 0){
+            gameObjects.splice( gameObjects.indexOf(obj, 1));
         }
     };
 
@@ -97,6 +101,7 @@ GameLoop = (function (){
 
     render = function(){
         var i, controller;
+        var i, gameObj;
         context.clearRect(0,0,canvas.width, canvas.height);
         context.save();
 
@@ -105,22 +110,21 @@ GameLoop = (function (){
             controller = controllers[i];
             if(controller.render !== undefined){
                 controller.render(canvas,context);
+        // render gameObjects
+        for(i = 0; i < gameObjects.length; i++){
+            gameObj = gameObjects[i];
+            if(gameObj.render !== undefined){
+                gameObj.render();
             }
         }
         context.restore();
     };
 
     update = function (){
-        controllers.forEach(function(controller){
-            if(controller.update !== undefined){
-                controller.update(input);
-            }
-        });
 
-        // check for collisions
-        controllers.forEach(function(controller){
-            if(controller.collisions !== undefined){
-                controller.collisions();
+        gameObjects.forEach(function(gameObj){
+            if(gameObj.update !== undefined){
+                gameObj.update();
             }
         });
     };
@@ -131,7 +135,8 @@ GameLoop = (function (){
             console.error("No canvas object is defined");
             return false;
         }
-        controllers = [];
+
+        gameObjects = [];
 
         canvas = document.getElementById(canvasId);
         context = canvas.getContext('2d');
