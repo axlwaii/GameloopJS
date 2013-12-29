@@ -3,7 +3,7 @@ GameLoopJS
 
 Introduction
 ------------
-There is nothing fancy about it, '''GameLoop''' just calls '''update()''' and '''render()'''' of added Objects by defined frames per second.
+There is nothing fancy about it, GameLoop  just calls ***update()*** and ***render()*** of added Objects by defined frames per second.
 The default frames per second are 30, you can change it by calling:
 ```javascript
 GameLoop.fps(60);
@@ -17,8 +17,8 @@ GameLoop.init('yourCanvasId');
 
 Add game objects
 -------------------------------
-Like mentioned before '''GameLoop''' mainly takes care of the update circles.
-So your object should have the two functions '''update''' and '''render'''.
+Like mentioned before ***GameLoop*** mainly takes care of the update circles.
+So your object should have the two functions ***update*** and ***render***.
 
 Update will be called before render.
 ```javascript
@@ -88,17 +88,17 @@ GameLoop.stop();
 
 Parameters
 -------------
-For smooth movement use '''deltaTime()''':
+For smooth movement use ***deltaTime()***:
 ```javascript
 GameLoop.deltaTime();
 ```
 
-'''Canvas''':
+***Canvas***:
 ```javascript
 var canvas = GameLoop.canvas();
 ```
 
-'''Context''':
+***Context***:
 ```javascript
 var ctx = GameLoop.context();
 ```
@@ -131,7 +131,3 @@ The MIT License (MIT)
   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   THE SOFTWARE.
-
-
-
-
