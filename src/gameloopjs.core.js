@@ -52,8 +52,12 @@ GameLoop = (function (){
     getCanvas  = function() { return canvas; };
     getContext = function() { return context; };
 
-    fps = function(fps){
-        skipTicks = 1000/fps;
+    fps = function(_fps){
+
+        currentFps = (_fps || currentFps );
+        skipTicks = 1000/currentFps;
+
+        return currentFps;
     };
 
     addObject = function (obj) {
