@@ -29,39 +29,41 @@ Update will be called before render.
 //          or up until it hits the 0 point of the canvas
 
 var YourObject = function(){
-	
-	var render, 
-      update,
-      speed = 1;
+    var render, 
+        update,
+        speed = 1,
+        position;
+        
+    position = {
+    	x: 50,
+    	y: 50
+    };
 
-  render = function(){
-    
+    render = function() {
+            
         var ctx       = GameLoop.context();
         ctx.fillStyle = "red";
-
+    
         ctx.fillRect(this.position.x,this.position.y,50,50);
+    };
 
-	};
+    update = function() {
 
-	update = function(input){
+        canvas = GameLoop.canvas();
 
-    canvas = GameLoop.canvas();
+        if(position.y >= canvas.height - 50 /* height of the rectangle */){
+            speed = -1;
+        } else if(position.y <= 0){
+            speed = 1;
+        }
 
-    if(position.y >= canvas.height - 50 /* height of the rectangle */){
-      speed = -1;
-    }else if(position.y <= 0){
-      speed = 1;
-    }
+        this.position.y += speed * GameLoop.deltaTime();
+    };
 
-    this.position.y += speed * GameLoop.deltaTime();
-
-  };
-
-	return {
-	    render: render,
-	    update: update
-	};
-
+    return {
+        render: render,
+	update: update
+    };
 };
 ```
 Now all you have to do is to create an instance of our new Object and add it to the GameLoop
