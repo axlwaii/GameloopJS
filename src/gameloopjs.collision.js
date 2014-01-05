@@ -90,13 +90,13 @@ GameLoop.Collision = (function() {
 
         var a = {
                 left     : aX,
-                right    : ax + aWidth,
+                right    : aX + aWidth,
                 top      : aY,
                 bottom   : aY - aHeight
             },
             b = {
                 left     : bX,
-                right    : bx + bWidth,
+                right    : bX + bWidth,
                 top      : bY,
                 bottom   : bY - bHeight
             };
