@@ -8,8 +8,15 @@ GameLoop.Collision = (function() {
     var innerCollision,
         objectsInnerCollision,
         dotProduct,
-        collided;
+        collided,
+        intersectRect;
 
+    intersectRect = function(r1, r2)  {
+        return !(r2.left > r1.right ||
+            r2.right < r1.left ||
+            r2.top > r1.bottom ||
+            r2.bottom < r1.top);
+    };
 
     collided = function(a, b) {
 
@@ -68,20 +75,34 @@ GameLoop.Collision = (function() {
 
     innerCollision = function(aX, aY, aHeight, aWidth, bX, bY, bHeight, bWidth){
 
+        // var a = {
+        //         x     : aX,
+        //         y     : aY,
+        //         height: aHeight,
+        //         width : aWidth
+        //     },
+        //     b = {
+        //         x     : bX,
+        //         y     : bY,
+        //         height: bHeight,
+        //         width : bWidth
+        //     };
+
         var a = {
-                x     : aX,
-                y     : aY,
-                height: aHeight,
-                width : aWidth
+                left     : aX,
+                right    : ax + aWidth,
+                top      : aY,
+                bottom   : aY - aHeight
             },
             b = {
-                x     : bX,
-                y     : bY,
-                height: bHeight,
-                width : bWidth
+                left     : bX,
+                right    : bx + bWidth,
+                top      : bY,
+                bottom   : bY - bHeight
             };
 
-        return objectsInnerCollision(a,b);
+        // return objectsInnerCollision(a,b);
+        return intersectRect(a,b);
 
     };
 
