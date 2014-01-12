@@ -3,102 +3,156 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
     <title>Gameloopjs by axlwaii</title>
   </head>
 
   <body>
-    <div id="container">
+    <header>
       <div class="inner">
+        <h1>Gameloopjs</h1>
+        <h2>This is just a GameLoop</h2>
+        <a href="https://github.com/axlwaii/GameloopJS" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-        <header>
-          <h1>Gameloopjs</h1>
-          <h2>This is just a GameLoop</h2>
-        </header>
-
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/axlwaii/GameLoopJS/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/axlwaii/GameLoopJS/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/axlwaii/GameLoopJS" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
           <h1>
 <a name="gameloopjs" class="anchor" href="#gameloopjs"><span class="octicon octicon-link"></span></a>GameLoopJS</h1>
 
-<p>This is a just a game loop.</p>
+<h2>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>There is nothing fancy about it, GameLoop  just calls <strong><em>update()</em></strong> and <strong><em>render()</em></strong> of added Objects by defined frames per second.
+The default frames per second are 30, you can change it by calling:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">GameLoop</span><span class="p">.</span><span class="nx">fps</span><span class="p">(</span><span class="mi">60</span><span class="p">);</span>
+</pre></div>
 
 <h2>
 <a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How To Use:</h2>
 
 <p>Add your canvas</p>
 
-<pre><code>GameLoop.init('yourCanvasId');
-</code></pre>
+<div class="highlight highlight-javascript"><pre><span class="nx">GameLoop</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="s1">'yourCanvasId'</span><span class="p">);</span>
+</pre></div>
 
 <h2>
-<a name="add-game-elements-controllers" class="anchor" href="#add-game-elements-controllers"><span class="octicon octicon-link"></span></a>Add game elements (controllers)</h2>
+<a name="add-game-objects" class="anchor" href="#add-game-objects"><span class="octicon octicon-link"></span></a>Add game objects</h2>
 
-<p>A controller or object can have 3 functions to interact with the loop:</p>
+<p>Like mentioned before <strong><em>GameLoop</em></strong> mainly takes care of the update circles.
+So your object should have the two functions <strong><em>update</em></strong> and <strong><em>render</em></strong>.</p>
 
-<pre><code>var YourController = function(){
+<p>Update will be called before render.</p>
 
-  var controller = {};
-  controller.emit = function(){
-    //Will be called last each frame
-  };
+<div class="highlight highlight-javascript"><pre>
+<span class="c1">// Example: Bouncing Box</span>
+<span class="c1">// @desc    red square that moves </span>
+<span class="c1">//          down until it hits the canvas height</span>
+<span class="c1">//          or up until it hits the 0 point of the canvas</span>
 
-  controller.render = function(context){
-    //basicaly returns the context so that you can draw your object(s)
-  };
+<span class="kd">var</span> <span class="nx">YourObject</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
-  controller.update = function(keysPressed,mousePressed){
-    // you can add listeners
-    // for keyboard and mouse input
-  };
+    <span class="kd">var</span> <span class="nx">render</span><span class="p">,</span> 
+        <span class="nx">update</span><span class="p">,</span>
+        <span class="nx">position</span><span class="p">,</span>
+        <span class="nx">speed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 
-  // your code
+    <span class="nx">position</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">x</span><span class="o">:</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="nx">y</span><span class="o">:</span> <span class="mi">50</span>
+    <span class="p">};</span>
 
-  return controller;
-};
-</code></pre>
+    <span class="nx">render</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
-<h2>
-<a name="push-controllers-into-the-loop" class="anchor" href="#push-controllers-into-the-loop"><span class="octicon octicon-link"></span></a>Push controllers into the loop</h2>
+        <span class="kd">var</span> <span class="nx">ctx</span>       <span class="o">=</span> <span class="nx">GameLoop</span><span class="p">.</span><span class="nx">context</span><span class="p">();</span>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">"red"</span><span class="p">;</span>
 
-<pre><code>var yourController = new YourController();
-GameLoop.addController(yourController);
-</code></pre>
+        <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">);</span>
+    <span class="p">};</span>
 
-<h2>
-<a name="add-listeners" class="anchor" href="#add-listeners"><span class="octicon octicon-link"></span></a>Add Listeners</h2>
+    <span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
-<p>GameLoop provides two arrays (GameLoop.keyPressed and GameLoop.mousepressed)
-to store key or mouse events, which will be given as arguments to the update method.</p>
+        <span class="nx">canvas</span> <span class="o">=</span> <span class="nx">GameLoop</span><span class="p">.</span><span class="nx">canvas</span><span class="p">();</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">&gt;=</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">-</span> <span class="mi">50</span> <span class="cm">/* height of the rectangle */</span><span class="p">){</span>
+            <span class="nx">speed</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">){</span>
+            <span class="nx">speed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">this</span><span class="p">.</span><span class="nx">position</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="nx">speed</span> <span class="o">*</span> <span class="nx">GameLoop</span><span class="p">.</span><span class="nx">deltaTime</span><span class="p">();</span>
+    <span class="p">};</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">render</span><span class="o">:</span> <span class="nx">render</span><span class="p">,</span>
+        <span class="nx">update</span><span class="o">:</span> <span class="nx">update</span>
+    <span class="p">};</span>
+
+<span class="p">};</span>
+</pre></div>
+
+<p>Now all you have to do is to create an instance of our new Object and add it to the GameLoop</p>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// add your object</span>
+<span class="kd">var</span> <span class="nx">yourObject</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">YourObject</span><span class="p">();</span>
+<span class="nx">GameLoop</span><span class="p">.</span><span class="nx">addObject</span><span class="p">(</span><span class="nx">yourObject</span><span class="p">);</span>
+</pre></div>
 
 <h2>
 <a name="start-the-game" class="anchor" href="#start-the-game"><span class="octicon octicon-link"></span></a>Start the Game</h2>
 
 <p>Start the loop</p>
 
-<pre><code>GameLoop.start();
-</code></pre>
+<div class="highlight highlight-javascript"><pre><span class="nx">GameLoop</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+</pre></div>
+
+<h2>
+<a name="stop-the-game" class="anchor" href="#stop-the-game"><span class="octicon octicon-link"></span></a>Stop the Game</h2>
+
+<p>Stop the loop</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">GameLoop</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span>
+</pre></div>
+
+<h2>
+<a name="parameters" class="anchor" href="#parameters"><span class="octicon octicon-link"></span></a>Parameters</h2>
+
+<p>For smooth movement use <strong><em>deltaTime()</em></strong>:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">GameLoop</span><span class="p">.</span><span class="nx">deltaTime</span><span class="p">();</span>
+</pre></div>
+
+<p><strong><em>Canvas</em></strong>:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">canvas</span> <span class="o">=</span> <span class="nx">GameLoop</span><span class="p">.</span><span class="nx">canvas</span><span class="p">();</span>
+</pre></div>
+
+<p><strong><em>Context</em></strong>:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">GameLoop</span><span class="p">.</span><span class="nx">context</span><span class="p">();</span>
+</pre></div>
 
 <h2>
 <a name="notice" class="anchor" href="#notice"><span class="octicon octicon-link"></span></a>Notice</h2>
 
-<p>GameLoop is still in an early stage of development and may change in future versions.</p>
+<p>GameLoopJS is still in an early stage of development and may change in future versions.</p>
 
-<p>License
-  -
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>-
 The MIT License (MIT)</p>
 
 <p>Copyright (c) 2013 Markus Waitl</p>
@@ -122,13 +176,23 @@ The MIT License (MIT)</p>
   THE SOFTWARE.</p>
         </section>
 
-        <footer>
-          Gameloopjs is maintained by <a href="https://github.com/axlwaii">axlwaii</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
+        <aside id="sidebar">
+          <a href="https://github.com/axlwaii/GameloopJS/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/axlwaii/GameloopJS/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
 
-        
+          <p class="repo-owner"><a href="https://github.com/axlwaii/GameloopJS"></a> is maintained by <a href="https://github.com/axlwaii">axlwaii</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
       </div>
     </div>
+
+  
   </body>
 </html>
