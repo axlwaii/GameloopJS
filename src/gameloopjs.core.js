@@ -1,8 +1,5 @@
 // GameLoopJS Core
 
-/*jslint browser:true*/
-
-
 var GameLoop = {};
 
 window.requestAnimFrame = (function(){
@@ -21,9 +18,9 @@ window.requestAnimFrame = (function(){
 
 }());
 
-GameLoop = (function (){
+GameLoop = (function (window, document, undefined){
 
-    "use strict";
+    'use strict';
 
     var addObject,
         canvas,
@@ -123,7 +120,7 @@ GameLoop = (function (){
     init = function(canvasId){
 
         if(canvasId === undefined){
-            console.error("No canvas object is defined");
+            console.error('No canvas object is defined');
             return false;
         }
 
@@ -160,7 +157,7 @@ GameLoop = (function (){
     start = function(){
 
         if(gameObjects.length === 0) {
-            console.warn("No gameObjects in the Game.");
+            console.warn('No gameObjects in the Game.');
         }
 
         startTime = Date.now();
@@ -169,14 +166,14 @@ GameLoop = (function (){
         isRunning = true;
         play();
 
-        console.info("Gameloop is running");
+        console.info('Gameloop is running');
 
     };
 
     // @desc   sets isRunning to false, nothing will be rendered or updated anymore
     stop = function(){
 
-        console.info("Gameloop stopped");
+        console.info('Gameloop stopped');
         isRunning = false;
 
     };
@@ -198,4 +195,4 @@ GameLoop = (function (){
 
     };
 
-}());
+}(window, document));
