@@ -10,7 +10,22 @@ GameLoop.fps(60);
 ```
 How To Use:
 ----------
-Add your canvas
+Lets start with creating the basic HTML:
+
+```html
+<html>
+  <head>
+    <title>Basic HTML</title>
+    <script src="gameloop.min.js"></script>
+    <!-- your scripts -->
+  </head>
+  <body>
+    <canvas height="640" width="480" id="yourCanvasId"></canvas>
+  </body>
+</html>
+```
+
+Initialize GameloopJS
 ```javascript
 GameLoop.init('yourCanvasId');
 ```
