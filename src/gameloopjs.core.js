@@ -1,8 +1,10 @@
 // GameLoopJS Core
 
-var GameLoop = {};
+var GameLoop = GameLoop || {};
 
 window.requestAnimFrame = (function(){
+
+    'use strict';
 
     return (
         window.requestAnimationFrame       ||
@@ -11,44 +13,65 @@ window.requestAnimFrame = (function(){
         window.oRequestAnimationFrame      ||
         window.msRequestAnimationFrame     ||
 
+        // Fallback
         function(callback){
             window.setTimeout(callback, 1000 / 30);
         }
-        );
+
+    );
 
 }());
+
 
 GameLoop = (function (window, document, undefined){
 
     'use strict';
 
-    var addObject,
-        canvas,
+    var canvas,
         context,
-        gameObjects,
-        deltaTime,
+        clearCanvas,
+        currentFps,
+        skipTicks,
         fps,
-        currentFps = 30,
-        getCanvas,
-        getContext,
         init,
-        input = {},
-        isRunning = false,
         lastTick,
-        nextTick,
-        play,
+        gameObjects,
+        addObject,
+        addObjects,
         removeObject,
-        render,
-        skipTicks = 1000/30,
-        start,
+        runs,
         startTime,
+        stopTime,
+        start,
         stop,
-        tick,
-        update;
+        // reuse memory for Iterators
+        updateI,
+        renderI;
 
-    getCanvas  = function() { return canvas; };
-    getContext = function() { return context; };
+    /* @desc intitialize canvas, context,
+     *       and default fps(60)
+     */
+    init = function(canvasId) {
 
+        if(canvasId === undefined){
+            console.error('No canvas object is defined');
+            return false;
+        }
+
+        runs        = false;
+        gameObjects = [];
+
+        canvas = document.getElementById(canvasId);
+        context = canvas.getContext('2d');
+
+        fps(60);
+
+    };
+
+    /* @desc getter and setter for fps
+     * @param _fps - if defined fps will be set to its value
+     * @return current fps
+     */
     fps = function(_fps){
 
         currentFps = (_fps || currentFps );
@@ -61,7 +84,25 @@ GameLoop = (function (window, document, undefined){
     addObject = function (obj) {
 
         if(typeof obj === 'object'){
+            if(obj.update === undefined) {
+                obj.update = function(){};
+            }
+
+            if(obj.render === undefined) {
+                obj.render = function(){};
+            }
+
             gameObjects.push(obj);
+        }
+
+    };
+
+    addObjects = function (objs) {
+        var i;
+
+        for(i = 0; i < objs.length; i++) {
+            var obj = gameObjects[i];
+            addObject(obj);
         }
 
     };
@@ -74,112 +115,97 @@ GameLoop = (function (window, document, undefined){
 
     };
 
-    deltaTime = function(){
-        return 0.1 * (parseInt(Date.now() - lastTick, 10));
-    };
-
-
-        }
-
-    };
-
-    render = function(){
-
-        var i, gameObj;
+    clearCanvas = function() {
         context.clearRect(0,0,canvas.width, canvas.height);
-        context.save();
-
-        // render gameObjects
-        for(i = 0; i < gameObjects.length; i++){
-            gameObj = gameObjects[i];
-            if(gameObj.render !== undefined){
-                gameObj.render();
-            }
-        }
-
-        context.restore();
-
     };
 
-    update = function (){
-
-        gameObjects.forEach(function(gameObj){
-            if(gameObj.update !== undefined){
-                gameObj.update();
-            }
-        });
-
-    };
-
-    // INIT, START, STOP
-    init = function(canvasId){
-
-        if(canvasId === undefined){
-            console.error('No canvas object is defined');
-            return false;
-        }
-
-        gameObjects = [];
-
-        canvas = document.getElementById(canvasId);
-        context = canvas.getContext('2d');
-
-    };
-
-    // @desc   actual gameloop
-    play = function(){
-
-
-            update();
-            render();
-
-            nextTick = new Date().getTime() + skipTicks;
-            lastTick = new Date().getTime();
-        }
-
-        if(!isRunning) { return; }
-
-
-    };
-
-    // @desc   start or restarts the GameLoop
-    start = function(){
+    start = function() {
 
         if(gameObjects.length === 0) {
             console.warn('No gameObjects in the Game.');
         }
 
         startTime = Date.now();
-        isRunning = true;
+        lastTick = Date.now();
+        runs = true;
         play();
 
         console.info('Gameloop is running');
 
     };
 
-    // @desc   sets isRunning to false, nothing will be rendered or updated anymore
-    stop = function(){
+    stop = function() {
+
+        runs = false;
+        stopTime = Date.now();
 
         console.info('Gameloop stopped');
-        isRunning = false;
 
     };
 
+    function deltaTime() {
+        return 0.1 * (parseInt(Date.now() - lastTick, 10));
+    }
+
+    function render() {
+
+        for(renderI = 0; renderI < gameObjects.length; renderI++) {
+            gameObjects[renderI].render(canvas, context);
+        }
+
+    }
+
+    function update() {
+
+        for(updateI = 0; updateI < gameObjects.length; updateI++) {
+            gameObjects[updateI].update(canvas, context);
+        }
+
+        render();
+    }
+
+    function play() {
+
+        window.requestAnimFrame(play);
+
+        context.save();
+
+        update();
+        lastTick = Date.now();
+
+        context.restore();
+
+        if(!runs) { return false; }
+
+    }
+
+    /* @desc public interface
+     *  canvas              - returns canvas
+     *  context             - returns context2d of the canvas
+     *  fps(arg)            - sets frames per seconds
+     *  fps()               - returns fps
+     *  deltaTime           - returns delta time for smooth movement
+     *  gameObjects         - array of all included gameObjects
+     *  addObject(obj)      - add 1 object to the loop
+     *  addObjcts(objArray) - add an array of objects to the loop
+     *  removeObject(obj)   - searches for obj in ganeObjects and removes it
+     *  start()             - start the loop (basically executes update and render)
+     *  stop()              - stop the loop
+     */
+
     return {
-
-        addObject: addObject,
-        canvas: getCanvas,
-        context: getContext,
-        deltaTime: deltaTime,
-        fps: fps,
-        gameObjects: gameObjects,
-        init: init,
-        input: input,
-        removeObject: removeObject,
-        start: start,
-        startTime: startTime,
-        stop: stop
-
+        canvas       : canvas,
+        context      : context,
+        clearCanvas  : clearCanvas,
+        init         : init,
+        deltaTime    : deltaTime,
+        fps          : fps,
+        gameObjects  : gameObjects ,
+        addObject    : addObject,
+        addObjects   : addObjects,
+        removeObject : removeObject,
+        start        : start,
+        stop         : stop
     };
 
 }(window, document));
