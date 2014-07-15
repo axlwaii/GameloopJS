@@ -78,13 +78,8 @@ GameLoop = (function (window, document, undefined){
         return 0.1 * (parseInt(Date.now() - lastTick, 10));
     };
 
-    tick = function(){
 
-        if(new Date().getTime() > nextTick){
-            return true;
         }
-
-        return false;
 
     };
 
@@ -134,7 +129,6 @@ GameLoop = (function (window, document, undefined){
     // @desc   actual gameloop
     play = function(){
 
-        if(tick()){
 
             update();
             render();
@@ -161,8 +155,6 @@ GameLoop = (function (window, document, undefined){
         }
 
         startTime = Date.now();
-        nextTick = new Date().getTime();
-        lastTick = new Date().getTime();
         isRunning = true;
         play();
 
