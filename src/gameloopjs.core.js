@@ -139,11 +139,6 @@ GameLoop = (function (window, document, undefined){
 
         if(!isRunning) { return; }
 
-        // RequestAnimationFrame is burning the cpu with its update circles nearly every ms.
-        // 15ms should be enough to provide a smooth gameplay
-        setTimeout( function(){
-            window.requestAnimFrame(play);
-        }, 15);
 
     };
 
