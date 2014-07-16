@@ -1,9 +1,9 @@
 // Gameloop Collisions
 
-/*global GameLoop: true*/
+window.Gameloop = Gameloop || {};
 
 GameLoop.Collision = (function() {
-    "use strict";
+    'use strict';
 
     var innerCollision,
         objectsInnerCollision,
