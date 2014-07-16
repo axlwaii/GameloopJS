@@ -1,20 +1,13 @@
 /* Main Game */
-var playerController;
+var keysArray = [];
 
-// document ready function
-var readyStateCheckInterval = setInterval(function() {
-    if (document.readyState === "complete") {
+// Start
+GameLoop.init('game');
+GameLoop.Controls.keyboard(keysArray);
 
-        // Start
-        GameLoop.init("game");
+// add your object
+GameLoop.addObject(new Player(50,50));
 
-        playerController = new PlayerController();
-        playerController.setPlayer(new Player(50,50));
-        GameLoop.addObject(playerController);
-
-        GameLoop.start();
-        // END
-
-        clearInterval(readyStateCheckInterval);
-    }
-}, 10);
+// start the game
+GameLoop.start();
+// END
