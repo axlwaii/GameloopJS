@@ -4,9 +4,10 @@ GameLoopJS
 Introduction
 ------------
 There is nothing fancy about it, GameLoop  just calls ***update()*** and ***render()*** of added Objects by defined frames per second.
-The default frames per second are 30, you can change it by calling:
+The default frames per second are 60, you can change it by calling:
+
 ```javascript
-GameLoop.fps(60);
+GameLoop.fps(30);
 ```
 How To Use:
 ----------
@@ -114,12 +115,12 @@ GameLoop.deltaTime();
 
 ***Canvas***:
 ```javascript
-var canvas = GameLoop.canvas();
+var canvas = GameLoop.canvas;
 ```
 
 ***Context***:
 ```javascript
-var ctx = GameLoop.context();
+var ctx = GameLoop.context;
 ```
 
 Notice
@@ -131,7 +132,7 @@ License
   -
 The MIT License (MIT)
 
-  Copyright (c) 2013 Markus Waitl
+  Copyright (c) 2013-2014 Markus Waitl
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
