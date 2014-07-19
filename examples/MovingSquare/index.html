@@ -4,13 +4,23 @@
     <!-- Initialize GameLoop components-->
     <script src="../../src/gameloopjs.core.js"></script>
     <!-- END -->
+
+    <style>
+        canvas {
+          background: #fdfdfd;
+          border: 4px dotted #ccc;
+        }
+    </style>
   </head>
   <body>
     <canvas id="game" width="600" height="280"></canvas>
 
 
-    <!-- Initialize your game components -->
+    <!-- Initialize game loop components -->
+    <script src="../../src/gameloopjs.model.js"></script>
     <script src="../../src/gameloopjs.controls.js"></script>
+    <script src="../../src/gameloopjs.collision.js"></script>
+    <!-- Initialze your components -->
     <script src="models/Player.js"></script>
     <!-- END -->
 
