@@ -85,6 +85,7 @@ GameLoop = (function (window, document, undefined){
     addObject = function (obj) {
 
         if(typeof obj === 'object'){
+
             if(obj.update === undefined) {
                 obj.update = function(){};
             }
@@ -93,7 +94,12 @@ GameLoop = (function (window, document, undefined){
                 obj.render = function(){};
             }
 
+            if(obj.z === undefined) {
+                obj.z = 0;
+            }
+
             gameObjects.push(obj);
+            gameObjects.sort(orderByZ);
         }
 
     };
@@ -153,6 +159,25 @@ GameLoop = (function (window, document, undefined){
         console.info('Gameloop stopped');
 
     };
+
+    /* @desc    Order Array by z value
+     *          used to sort gameObject for update and render
+     * @param   a - first Object to compare
+     * @param   b - second Object to compare
+     * @returns 0: if eqaul  -1: a.z is smaller 1: a.z is bigger
+    */
+    function orderByZ(a,b) {
+
+        if (a.z < b.z) {
+            return -1;
+        }
+
+        if (a.z > b.z) {
+            return 1;
+        }
+
+        return 0;
+    }
 
     function deltaTime() {
         return 0.1 * (parseInt(Date.now() - lastTick, 10));
