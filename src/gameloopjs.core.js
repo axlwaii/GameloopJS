@@ -39,6 +39,7 @@ GameLoop = (function (window, document, undefined){
         addObject,
         addObjects,
         removeObject,
+        removeObjects,
         runs,
         startTime,
         stopTime,
@@ -111,6 +112,16 @@ GameLoop = (function (window, document, undefined){
 
         if(gameObjects.indexOf(obj) >= 0){
             gameObjects.splice( gameObjects.indexOf(obj, 1));
+        }
+
+    };
+
+    removeObjects = function (objs) {
+        var i;
+
+        for(i = 0; i < objs.length; i++) {
+            var obj = objs[i];
+            removeObject(obj);
         }
 
     };
