@@ -99,8 +99,10 @@ GameLoop = (function (window, document, undefined){
                 obj.z = 0;
             }
 
-            gameObjects.push(obj);
-            gameObjects.sort(orderByZ);
+            if(gameObjects.indexOf(obj) < 0){
+                gameObjects.push(obj);
+                gameObjects.sort(orderByZ);
+            }
         }
 
     };
