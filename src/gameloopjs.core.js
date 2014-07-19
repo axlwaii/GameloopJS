@@ -63,8 +63,8 @@ GameLoop = (function (window, document, undefined){
         runs        = false;
         gameObjects = [];
 
-        canvas = document.getElementById(canvasId);
-        context = canvas.getContext('2d');
+        canvas = this.canvas = document.getElementById(canvasId);
+        context = this.context = canvas.getContext('2d');
 
         fps(60);
 
