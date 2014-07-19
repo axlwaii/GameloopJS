@@ -14,7 +14,7 @@ Player = function(newX, newY, color){
 
         ctx.save();
         ctx.fillStyle = color || 'red';
-        ctx.fillRect(this.x,this.y,this.width, this.height);
+        ctx.fillRect(Math.round(this.x),Math.round(this.y),this.width, this.height);
 
         ctx.restore();
     };
