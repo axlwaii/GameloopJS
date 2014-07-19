@@ -108,7 +108,7 @@ GameLoop = (function (window, document, undefined){
         var i;
 
         for(i = 0; i < objs.length; i++) {
-            var obj = gameObjects[i];
+            var obj = objs[i];
             addObject(obj);
         }
 
