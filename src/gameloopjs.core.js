@@ -32,6 +32,7 @@ GameLoop = (function (window, document, undefined){
         clearCanvas,
         currentFps,
         skipTicks,
+        elapsedTime,
         fps,
         init,
         lastTick,
@@ -202,13 +203,13 @@ GameLoop = (function (window, document, undefined){
 
     function play() {
 
-        window.requestAnimFrame(play);
+        setTimeout(function(){
+            window.requestAnimFrame(play);
+        }, 1000/ currentFps);
 
         context.save();
-
         update();
         lastTick = Date.now();
-
         context.restore();
 
         if(!runs) { return false; }
@@ -230,18 +231,19 @@ GameLoop = (function (window, document, undefined){
      */
 
     return {
-        canvas       : canvas,
-        context      : context,
-        clearCanvas  : clearCanvas,
-        init         : init,
-        deltaTime    : deltaTime,
-        fps          : fps,
-        gameObjects  : gameObjects ,
-        addObject    : addObject,
-        addObjects   : addObjects,
-        removeObject : removeObject,
-        start        : start,
-        stop         : stop
+        canvas        : canvas,
+        context       : context,
+        clearCanvas   : clearCanvas,
+        init          : init,
+        deltaTime     : deltaTime,
+        fps           : fps,
+        gameObjects   : gameObjects ,
+        addObject     : addObject,
+        addObjects    : addObjects,
+        removeObject  : removeObject,
+        removeObjects : removeObjects,
+        start         : start,
+        stop          : stop
     };
 
 }(window, document));
