@@ -5,33 +5,26 @@ window.GameLoop = GameLoop || {};
 GameLoop.Collision = (function() {
     'use strict';
 
-    var dotProduct,
-        topAreaCollision,
-        bottomAreaCollision,
-        leftAreaCollision,
-        rightAreaCollision,
-        gameAreaCollision,
-        boxCollision,
-        _boxCollision;
+    var gameAreaCollision,
+        boxCollision;
 
-    _boxCollision = function(r1, r2)  {
+    function _boxCollision(r1, r2)  {
         return !(r2.left > r1.right ||
             r2.right < r1.left ||
             r2.top > r1.bottom ||
             r2.bottom < r1.top);
-    };
+    }
 
-    dotProduct = function(a, b) {
+    function dotProduct(a, b) {
         var dx, dy;
 
         dx = a.x*b.x;
         dy = a.y*b.y;
 
         return dx + dy;
+    }
 
-    };
-
-    bottomAreaCollision = function(y, canvasHeight) {
+    function bottomAreaCollision(y, canvasHeight) {
 
         if (y >= canvasHeight) {
             return true;
@@ -39,9 +32,9 @@ GameLoop.Collision = (function() {
 
         return false;
 
-    };
+    }
 
-    topAreaCollision = function(y) {
+    function topAreaCollision(y) {
 
         if ( y <= 0 ) {
             return true;
@@ -49,17 +42,17 @@ GameLoop.Collision = (function() {
 
         return false;
 
-    };
+    }
 
-    leftAreaCollision = function(x) {
+    function leftAreaCollision(x) {
         if (x <= 0 ) {
             return true;
         }
 
         return false;
-    };
+    }
 
-    rightAreaCollision = function(x, canvasWidth) {
+    function rightAreaCollision(x, canvasWidth) {
 
         if (x >= canvasWidth) {
             return true;
@@ -67,17 +60,20 @@ GameLoop.Collision = (function() {
 
         return false;
 
-    };
+    }
 
     gameAreaCollision = function(obj, cnvs) {
 
-        if (leftAreaCollision(obj.x) ||
-            rightAreaCollision((obj.x + obj.width),cnvs.width)) {
+        var x = Math.round(obj.x);
+        var y = Math.round(obj.y);
+
+        if (leftAreaCollision(x) ||
+            rightAreaCollision((x + obj.width),cnvs.width)) {
             return true;
         }
 
-        if (topAreaCollision(obj.y)||
-            bottomAreaCollision((obj.y+obj.height),cnvs.height)) {
+        if (topAreaCollision(y)||
+            bottomAreaCollision((y + obj.height),cnvs.height)) {
             return true;
         }
 
