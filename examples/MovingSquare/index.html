@@ -10,16 +10,34 @@
           background: #fdfdfd;
           border: 4px dotted #ccc;
         }
+
+        #wrapper {
+          width: 620px;
+          margin: 0 auto;
+        }
+
+        .controls {
+          display: block;
+          width: 600px;
+        }
     </style>
   </head>
   <body>
-    <canvas id="game" width="600" height="280"></canvas>
+    <div id="wrapper">
 
+      <canvas id="game" width="600" height="280"></canvas>
+
+      <div class="controls">
+        <input id="speed" placeholder="Speed"/>
+      </div>
+
+    </div>
 
     <!-- Initialize game loop components -->
+    <script src="../../src/gameloopjs.collision.js"></script>
     <script src="../../src/gameloopjs.model.js"></script>
     <script src="../../src/gameloopjs.controls.js"></script>
-    <script src="../../src/gameloopjs.collision.js"></script>
+
     <!-- Initialze your components -->
     <script src="models/Player.js"></script>
     <!-- END -->

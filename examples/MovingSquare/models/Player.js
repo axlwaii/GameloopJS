@@ -14,6 +14,8 @@ Player = function(newX, newY, color){
 
         ctx.save();
         ctx.fillStyle = color || 'red';
+
+
         ctx.fillRect(Math.round(this.x),Math.round(this.y),this.width, this.height);
 
         ctx.restore();
@@ -28,26 +30,26 @@ Player = function(newX, newY, color){
                     this.y -= this.speed * GameLoop.deltaTime();
 
                     if(GameLoop.Collision.topAreaCollision(this.y)) {
-                        this.y += this.speed * GameLoop.deltaTime();
+                        this.y = 2;
                     }
 
                     break;
                 case 40: // down
                     this.y += this.speed * GameLoop.deltaTime();
                     if(GameLoop.Collision.bottomAreaCollision(this.y+this.height, cnvs.height)) {
-                        this.y -= this.speed * GameLoop.deltaTime();
+                        this.y = cnvs.height - this.height - 1;
                     }
                     break;
                 case 37: // left
                     this.x -= this.speed * GameLoop.deltaTime();
                     if(GameLoop.Collision.leftAreaCollision(this.x)) {
-                        this.x += this.speed * GameLoop.deltaTime();
+                        this.x = 1;
                     }
                     break;
                 case 39: // right
                     this.x += this.speed * GameLoop.deltaTime();
                     if(GameLoop.Collision.rightAreaCollision(this.x+this.width, cnvs.width)) {
-                        this.x -= this.speed * GameLoop.deltaTime();
+                        this.x = cnvs.width - this.width - 1;
                     }
                     break;
                 default:
