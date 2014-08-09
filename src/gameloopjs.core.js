@@ -96,7 +96,7 @@ GameLoop = (function (window, document, undefined){
             }
 
             if(obj.z === undefined) {
-                obj.z = 0;
+                obj.z = gameObjects.length + 1;
             }
 
             if(gameObjects.indexOf(obj) < 0){
